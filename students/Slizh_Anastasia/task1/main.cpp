@@ -50,7 +50,7 @@ public:
 
 int main() {
 	setlocale(LC_ALL, "rus");
-	int k = 1, choice, choice1;
+	int k = 0, choice, choice1;
 	int _h = 0, _min = 0, _sec = 0;
 	int h = 0, min = 0, sec = 0;
 	Time T1;
@@ -61,7 +61,7 @@ int main() {
 	system("cls");
 
 
-	while (k != 5) {
+	while (k != 3) {
 		system("cls");
 		cout << "Текущее время: ";
 		cout << _h << ":" << _min << ":" << _sec << endl;
@@ -100,6 +100,10 @@ int main() {
 			}
 			break;
 			}
+		}
+		case 3:
+		{
+			return;
 		}
 		}
 	}
