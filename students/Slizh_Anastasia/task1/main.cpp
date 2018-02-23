@@ -25,10 +25,10 @@ public:
 int main() {
 	setlocale(LC_ALL, "rus");
 	int k = 0, choice, choice1, p;
-	int _h = 0, _min = 0, _sec = 0;
+	int _h=0, _min=0, _sec=0;
 	system("cls");
 	Time T1;
-	cout << "Задать время" << endl;
+	cout << "Задать время:" << endl;
 	Enter(&_h, &_min, &_sec);
 
 	system("pause");
@@ -117,12 +117,12 @@ void Enter(int *h, int *min, int *sec)
 void Time::timeDiff(int *_hour, int *_minute, int *_second)
 {
 	int second1 = hour * 3600 + minute * 60 + second;
-	int second2 = *_hour * 3600 + *_minute * 60 + *_second; 3
-		int diff = abs(second1 - second2);
+	int second2 = *_hour * 3600 + *_minute * 60 + *_second;3
+	int diff = abs(second1 - second2);
 	*_hour = diff / 3600;
 	diff = diff - *_hour * 3600;
 	*_minute = diff / 60;
-	*_second = diff % 60;
+	*_second = diff%60;
 }
 
 void Time::changeTime1(int _hour, int _minute, int _second)
