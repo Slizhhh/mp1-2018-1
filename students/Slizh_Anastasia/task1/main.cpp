@@ -1,87 +1,133 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <time.h>
+#include <math.h>
 #include <stdio.h>
+#include <time.h>
+
+void Enter(int &_hour, int &_min, int &_sec)
+{
+	cout << "Укажите часы: ";
+	cin >> _hour;
+	if ((_hour > 23) || (_hour<0))
+	{
+		cout << "Ошибка";
+		return;
+	}
+	cout << "Укажите минуты: ";
+	cin >> _min;
+	if ((_min > 59) || (_min<0))
+	{
+		cout << "Ошибка";
+		return;
+	}
+	cout << "Укажите секунды: ";
+	cin >> _sec;
+	if ((_sec > 59) || (_sec<0))
+	{
+		cout << "Ошибка";
+		return;
+	}
+}
 
 using namespace std;
-
-void DataTime(int *second, int *minute, int *hour);
-class Time
-{
+class Time {
 private:
-	int second = 0;
-	int minute = 0;
-	int hour = 0;
+	int hour, minute, second;
 public:
-
-	void SpecifiedTime()
-	{
-		cout << "Укажите часы: ";
-		cin >> hour;
-		if (hour > 24)
-		{
-			cout << "Ошибка";
-			return;
-		}
-		cout << "Укажите минуты: ";
-		cin >> minute;
-		if (minute > 60)
-		{
-			cout << "Ошибка";
-			return;
-		}
-		cout << "Укажите секунды: ";
-		cin >> second;
-		if (second > 60)
-		{
-			cout << "Ошибка";
-			return;
-		}
-	}
-
-	void ShowTime()
-	{
-		cout << "Заданное время: " << hour;
-		cout << "." << minute;
-		cout << "." << second << endl;
+	Time(int _hour = 0, int _min = 0, int _sec = 0);
+	void showTime();
+	void timeDiff(int &_hour, int &_min, int &_sec);
+	void getTime(int &, int &, int &);
+	void changeTime1(int _hour, int _min, int _sec);
+	void changeTime2(int _hour, int _min, int _sec);
+	Time & operator=(const Time& obj) {
+		hour = obj.hour;
+		minute = obj.minute;
+		second = obj.second;
+		return *this;
 	}
 };
 
-
-int main()
-{
+int main() {
 	setlocale(LC_ALL, "rus");
-	int c = 0;
-	Time t;
-	while (c != 5)
-	{
-		cout << "Меню: " << endl;
-		cout << "1)Установить время " << endl;
-		cout << "2)Узнать время " << endl;
-		cout << "3)Узнать разницу между заданным временем и установленным " << endl;
-		cout << "4)Сдвинуть время на заданное смещение " << endl;
-		cout << "5)Выйти из программы " << endl;
-		cin >> c;
-		switch (c)
-		{
+	int k = 1, choice, choice1;
+	int _h = 0, _min = 0, _sec = 0;
+	int h = 0, min = 0, sec = 0;
+	Time T1;
+	system("cls");
+	cout << "Задать время:" << endl;
+	Enter(_h, _min, _sec);
+	system("pause");
+	system("cls");
+
+
+	while (k != 5) {
+		system("cls");
+		cout << "Текущее время: ";
+		cout << _h << ":" << _min << ":" << _sec << endl;
+		cout << "1. Рассчитать разницу между введеным и заданным" << endl;
+		cout << "2 Время перемещения" << endl;
+		cout << "3. Выход" << endl;
+		cout << "Ваш выбор: ";
+		cin >> choice;
+		switch (choice) {
 		case 1:
 		{
-			t.SpecifiedTime();
+			Enter(h, min, sec);
+			T1.timeDiff(h, min, sec);
+			cout << "Разница между введеным и заданным ";
+			cout << h << ":" << min << ":" << sec << endl;
 			system("pause");
-			system("cls");
 			break;
 		}
 		case 2:
 		{
-			t.ShowTime();
-			system("pause");
-			system("cls");
+			cout << "Введите время которое вы хотите изменить" << endl << endl;
+			Enter(_h, _min, _sec);
+			cout << "Выбрать направление" << endl;
+			cout << "1. Вперед" << endl;
+			cout << "2. Назад" << endl;
+			cout << "Ваш выбор: ";
+			cin >> choice1;
+			switch (choice1) {
+			case 1:
+			{
+				T1.changeTime1(_h, _min, _sec);
+			}
+			case 2:
+			{
+				T1.changeTime2(_h, _min, _sec);
+			}
 			break;
+			}
 		}
-		case 3:
-		{
 		}
-		}//switch
-	}//while
-	return 0;
-}//int main
+	}
+}
+
+
+
+void Time::timeDiff(int &_hour, int &_minute, int &_second)
+{
+	int second1 = hour * 3600 + minute * 60 + second;
+	int second2 = _hour * 3600 + _minute * 60 + _second;
+	int diff = second1 - second2;
+	_minute = diff / 60;
+	_second = diff - _minute * 60;
+	diff = _minute;
+	_hour = diff / 60;
+	_minute = diff - _hour * 60;
+}
+void Time::changeTime1(int _hour, int _minute, int _second)
+{
+	hour -= _hour;
+	minute -= _minute;
+	second -= _second;
+}
+
+void Time::changeTime2(int _hour, int _minute, int _second)
+{
+	hour -= _hour;
+	minute -= _minute;
+	second -= _second;
+}
