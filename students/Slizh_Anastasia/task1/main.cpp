@@ -5,7 +5,8 @@
 #include <time.h>
 
 using namespace std;
-void Enter(int *_h, int *_min, int *_sec);
+void Enter(int *_hour, int *_minute, int  *_second);
+
 class Time {
 private:
 	int hour, minute, second;
@@ -17,20 +18,24 @@ public:
 		second = obj.second;
 		return *this;
 	}
-	void timeDiff(int _hour, int _minute, int _second);
-	void changeTime1(int _hour, int _minute, int _second);
-	void changeTime2(int _hour, int _minute, int _second);
+	void setTime(int _hour, int _min, int _sec);
+	void showTime();
+	void timeDiff(int *_hour, int *_min, int *_sec);
+	void changeTimeLeft(int _hour, int _min, int _sec);
+	void changeTimeRight(int _hour, int _min, int _sec);
 };
 
 int main() {
 	setlocale(LC_ALL, "rus");
-	int k = 0, choice, choice1, p;
-	int _h=0, _min=0, _sec=0;
+	int k = 0, choice, choice1;
+	bool p = true;
+	int _hour = 0, _minute = 0, _second = 0;
+	//int hour = 0, minute = 0, second = 0;
 	system("cls");
-	Time T1;
 	cout << "Задать время:" << endl;
-	Enter(&_h, &_min, &_sec);
-
+	Enter(&_hour, &_minute, &_second);
+	Time T1;
+	T1.setTime(_hour, _minute, _second);
 	system("pause");
 	system("cls");
 
@@ -38,48 +43,58 @@ int main() {
 	while (k != 3) {
 		system("cls");
 		cout << "Заданное время: ";
-		cout << hous << ":" << minute << ":" << second << endl;
+		T1.showTime();
 		system("pause");
 		cout << "1. Рассчитать разницу между введеным и заданным" << endl;
 		cout << "2  Изменить время" << endl;
 		cout << "3. Выход" << endl;
 		cin >> choice;
+		system("cls");
 		switch (choice) {
 		case 1:
 		{
-			Enter(&_h, &_min, &_sec);
-			T1.timeDiff(_h, _min, _sec);
+			Enter(&_hour, &_minute, &_second);
+			T1.timeDiff(&_hour, &_minute, &_second);
 			cout << "Разница между введеным и заданным ";
-			cout << _h << ":" << _min << ":" << _sec << endl;
+			cout << _hour << ":" << _minute << ":" << _second << endl;
 			system("pause");
+			system("cls");
 			break;
 		}
 		case 2:
 		{
 			cout << "Введите время которое вы хотите изменить" << endl << endl;
-			Enter(&_h, &_min, &_sec);
-			while (p != 3)
+			Enter(&_hour, &_minute, &_second);
+			while (p)
 			{
+				cout << "Текущее время: ";
+				T1.showTime();
 				cout << "Выбрать направление" << endl;
 				cout << "1. Вперед" << endl;
 				cout << "2. Назад" << endl;
-				cout << "3. Выйти в прошлое меню" << endl;
+				cout << "3. Выход" << endl;
 				cin >> choice1;
+				system("cls");
 				switch (choice1) {
 				case 1:
 				{
-					T1.changeTime1(_h, _min, _sec);
+					T1.changeTimeLeft(_hour, _minute, _second);
+					system("pause");
+					system("cls");
+					break;
 				}
 				case 2:
 				{
-					T1.changeTime2(_h, _min, _sec);
+					T1.changeTimeRight(_hour, _minute, _second);
+					system("pause");
+					system("cls");
+					break;
 				}
 				case 3: {
-					p = 3; }
+					p = false; }
 				}
 				system("cls");
 			}
-			return;
 		case 3:
 		{
 			return 0;
@@ -89,51 +104,62 @@ int main() {
 	}
 }
 
-void Enter(int *h, int *min, int *sec)
+void Time::setTime(int _hour, int _minute, int _second)
+{
+	hour = _hour; minute = _minute; second = _second;
+}
+
+void Time::showTime() {
+	cout << hour << ':' << minute << ':' << second << endl;
+}
+
+
+void Enter(int *_hour, int *_minute, int *_second)
 {
 	cout << "Укажите часы: ";
-	cin >> *h;
-	if ((*h > 23) || (*h<0))
+	cin >> *_hour;
+	if ((*_hour > 23) || (*_hour<0))
 	{
 		cout << "Ошибка";
-		return 0;
+		return;
 	}
 	cout << "Укажите минуты: ";
-	cin >> *min;
-	if ((*min > 59) || (*min<0))
+	cin >> *_minute;
+	if ((*_minute > 59) || (*_minute<0))
 	{
 		cout << "Ошибка";
-		return 0;
+		return;
 	}
 	cout << "Укажите секунды: ";
-	cin >> *sec;
-	if ((*sec > 59) || (*sec<0))
+	cin >> *_second;
+	if ((*_second > 59) || (*_second<0))
 	{
 		cout << "Ошибка";
-		return 0;
+		return;
 	}
 }
 
 void Time::timeDiff(int *_hour, int *_minute, int *_second)
 {
 	int second1 = hour * 3600 + minute * 60 + second;
-	int second2 = *_hour * 3600 + *_minute * 60 + *_second;3
+	int second2 = *_hour * 3600 + *_minute * 60 + *_second;
 	int diff = abs(second1 - second2);
-	*_hour = diff / 3600;
-	diff = diff - *_hour * 3600;
 	*_minute = diff / 60;
-	*_second = diff%60;
+	*_second = diff - *_minute * 60;
+	diff = *_minute;
+	*_hour = diff / 60;
+	*_minute = diff - *_hour * 60;
 }
 
-void Time::changeTime1(int _hour, int _minute, int _second)
+void Time::changeTimeLeft(int _hour, int _minute, int _second)
 {
-	hour -= _hour;
-	minute -= _minute;
-	second -= _second;
+	hour += _hour;
+	minute += _minute;
+	second += _second;
 	cout << hour << ":" << minute << ":" << second << endl;
 }
 
-void Time::changeTime2(int _hour, int _minute, int _second)
+void Time::changeTimeRight(int _hour, int _minute, int _second)
 {
 	hour -= _hour;
 	minute -= _minute;
