@@ -11,7 +11,7 @@ private:
 	int x;
 	int y;
 	int length;
-	string text;
+
 public:
 	TextEditor() { x = 0; y = 0; }
 
@@ -49,17 +49,9 @@ public:
 			cout << " ";
 		}
 	}
-	void setLine()
+	string setLine(string text)
 	{
-		char mode;
-		text = "";
-		int counter = 0;
-		for (counter = 0; counter < length; counter++)
-		{
-			mode = _getch();
-			text += mode;
-			cout << text;
-		}
+		return text;
 	}
 
 };
@@ -67,23 +59,29 @@ public:
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	int k = 1;
 	int X = 0;
 	int Y = 0;
 	int _length = 0;
+	string _text = "";
+	char mode;
 	TextEditor Line;
-	cout << "¬ведите длину строки :" << endl;
+	cout << "¬ведите длину строки : ";
 	cin >> _length;
 	Line.Setlength(_length);
-	cout << "¬ведите координаты X:" << endl;
+	cout << "¬ведите координаты X: ";
 	cin >> X;
-	cout << "¬ведите координаты Y:" << endl;
+	cout << "¬ведите координаты Y: ";
 	cin >> Y;
 	system("cls");
-	Line.TheCoordinates(X, Y);
 	cout << "¬ведите строку длины: ";
+	for (int counter = 0; counter < _length; counter++)
+	{
+		mode = _getch();
+		_text += mode;
+	}
 	Line.Getlength();
-	Line.setLine();
+	Line.TheCoordinates(X, Y);
+	Line.setLine(_text);
 	system("pause");
 	system("cls");
 }
