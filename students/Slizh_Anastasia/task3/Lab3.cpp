@@ -11,9 +11,14 @@ private:
 	int x;
 	int y;
 	int length;
+	char *string;
 
 public:
-	TextEditor() { x = 0; y = 0; }
+
+	TextEditor()
+	{
+		string = new char[length];
+	}
 
 	TextEditor(int X, int Y) {
 		x = X;
@@ -27,6 +32,27 @@ public:
 		length = obj.length;
 	}
 
+	TextEditor& operator=(TextEditor &obj1)
+	{
+		if (this == &obj1)
+			return *this;
+		else
+			if (length != obj1.length)
+			{
+				delete[] string;
+				string = new char[obj1.length + 1];
+			}
+		strcpy(string, obj1.string);
+		length = obj1.length;
+		return *this;
+	}
+
+	TextEditor(const TextEditor &obj2)
+	{
+		length = obj2.length;
+		string = new char[length + 1];
+		strcpy(string, obj2.string);
+	}
 	void Setlength(int _length)
 	{
 		length = _length;
@@ -49,11 +75,22 @@ public:
 			cout << " ";
 		}
 	}
-	string setLine(string text)
+
+	void SetString(char* word)
 	{
-		return text;
+		length = strlen(word);
+		string = new char[length + 1];
+		strcpy(string, word);
+	}
+	char* GetString()
+	{
+		return string;
 	}
 
+	~TextEditor()
+	{
+		delete[]string;
+	}
 };
 
 int main()
@@ -62,8 +99,7 @@ int main()
 	int X = 0;
 	int Y = 0;
 	int _length = 0;
-	string _text = "";
-	char mode;
+	char* word = nullptr;
 	TextEditor Line;
 	cout << "¬ведите длину строки : ";
 	cin >> _length;
@@ -73,15 +109,13 @@ int main()
 	cout << "¬ведите координаты Y: ";
 	cin >> Y;
 	system("cls");
-	cout << "¬ведите строку длины: ";
-	for (int counter = 0; counter < _length; counter++)
-	{
-		mode = _getch();
-		_text += mode;
-	}
-	Line.Getlength();
+	cout << "¬ведите строку длины " << Line.Getlength() << ": ";
+	cin >> word;
+	Line.SetString(word);
+	system("pause");
+	system("cls");
 	Line.TheCoordinates(X, Y);
-	Line.setLine(_text);
+	cout << Line.GetString() << endl;
 	system("pause");
 	system("cls");
 }
