@@ -11,12 +11,13 @@ private:
 	int x;
 	int y;
 	int length;
-	char *string;
+	char *string;;
 
 public:
 
 	TextEditor()
 	{
+		length = 1;
 		string = new char[length];
 	}
 
@@ -30,28 +31,6 @@ public:
 		x = obj.x;
 		y = obj.y;
 		length = obj.length;
-	}
-
-	TextEditor& operator=(TextEditor &obj1)
-	{
-		if (this == &obj1)
-			return *this;
-		else
-			if (length != obj1.length)
-			{
-				delete[] string;
-				string = new char[obj1.length + 1];
-			}
-		strcpy(string, obj1.string);
-		length = obj1.length;
-		return *this;
-	}
-
-	TextEditor(const TextEditor &obj2)
-	{
-		length = obj2.length;
-		string = new char[length + 1];
-		strcpy(string, obj2.string);
 	}
 	void Setlength(int _length)
 	{
@@ -76,12 +55,15 @@ public:
 		}
 	}
 
-	void SetString(char* word)
+	void SetString()
 	{
-		length = strlen(word);
-		string = new char[length + 1];
-		strcpy(string, word);
+		for (int i = 0; i < length; i++)
+		{
+			string[i] = _getch();
+			putchar(string[i]);
+		}
 	}
+
 	char* GetString()
 	{
 		return string;
@@ -110,8 +92,7 @@ int main()
 	cin >> Y;
 	system("cls");
 	cout << "¬ведите строку длины " << Line.Getlength() << ": ";
-	cin >> word;
-	Line.SetString(word);
+	Line.SetString();
 	system("pause");
 	system("cls");
 	Line.TheCoordinates(X, Y);
